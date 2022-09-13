@@ -5,7 +5,7 @@ import axios from "axios";
 import { TextField, Button } from "@mui/material";
 import SingleBike from "./singleBike/singleBike";
 import notify, { ErrorMessage, SuccessMessage } from './../../../utils/notify';
-import { Links } from "../../../utils/links";
+import URLs from "../../../utils/links";
 
 function Bikes(): JSX.Element {
   let [lp, setLP] = useState("");
@@ -17,7 +17,7 @@ function Bikes(): JSX.Element {
   };
 
   const findLP = () => {
-    axios.get(Links.BIKES + lp)
+    axios.get(URLs.BIKES + lp)
       .then((response) => {
         const responseData = response.data.result.records;
         if (response.status == 200 && responseData.length > 0) {
@@ -30,7 +30,7 @@ function Bikes(): JSX.Element {
       })
       .catch((err) => {
         setData(new Bike());
-        notify.error(ErrorMessage.ERROR_MESSAGE);
+        notify.error(ErrorMessage.MALFUNCTION);
       })
   };
 

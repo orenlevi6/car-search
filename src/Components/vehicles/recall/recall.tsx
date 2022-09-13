@@ -1,15 +1,15 @@
 import { TextField, Button } from "@mui/material";
 import axios from "axios";
 import { useState, SyntheticEvent } from "react";
-import Truck from "../../../modal/truck";
-import { Links } from "../../../utils/links";
+import RecallCar from "../../../modal/recall";
+import URLs from "../../../utils/links";
 import notify, { SuccessMessage, ErrorMessage } from "../../../utils/notify";
-import SingleTruck from "./singleTruck/singleTruck";
-import "./trucks.css";
+import "./recall.css";
+import SingleRecall from "./singleRecall/singleRecall";
 
-function Trucks(): JSX.Element {
+function Recall(): JSX.Element {
     let [lp, setLP] = useState("");
-    let [truckData, setData] = useState<Truck>(new Truck());
+    let [recallData, setData] = useState<RecallCar>(new RecallCar());
 
     const updateLP = (args: SyntheticEvent) => {
         const value = (args.target as HTMLInputElement).value;
@@ -17,35 +17,35 @@ function Trucks(): JSX.Element {
     };
 
     const findLP = () => {
-        axios.get(Links.TRUCKS + lp).
+        axios.get(URLs.RECALL + lp).
             then((response) => {
                 const responseData = response.data.result.records;
                 if (response.status == 200 && responseData.length > 0) {
                     setData(responseData[0]);
                     notify.success(SuccessMessage.CAR_FOUND);
                 } else {
-                    setData(new Truck());
+                    setData(new RecallCar());
                     notify.error(ErrorMessage.CAR_NOT_FOUND);
                 }
             })
             .catch((err) => {
-                setData(new Truck());
-                notify.error(ErrorMessage.ERROR_MESSAGE);
+                setData(new RecallCar());
+                notify.error(ErrorMessage.MALFUNCTION);
             })
     };
 
     return (
-        <div className="trucks">
-            <h1>משאיות</h1> <hr />
+        <div className="recall">
+            <h1>רכבים שקיבלו ריקול</h1> <hr />
             <form>
                 <TextField label="לוחית רישוי" onChange={updateLP}></TextField>
                 <br /> <br />
                 <Button variant="contained" onClick={findLP}>לחיפוש</Button>
             </form>
             <br /> <br />
-            <SingleTruck truckData={truckData} />
+            <SingleRecall recallData={recallData} />
         </div>
     );
 }
 
-export default Trucks;
+export default Recall;

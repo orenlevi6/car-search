@@ -2,7 +2,7 @@ import "./handicap.css";
 import { SyntheticEvent, useState } from 'react';
 import HandicapCar from "../../../modal/handicap";
 import axios from "axios";
-import { Links } from "../../../utils/links";
+import URLs from "../../../utils/links";
 import notify, { SuccessMessage, ErrorMessage } from "../../../utils/notify";
 import { TextField, Button } from "@mui/material";
 import SingleHandicap from "./singleHandicap/singleHandicap";
@@ -17,7 +17,7 @@ function Handicap(): JSX.Element {
     };
 
     const findLP = () => {
-        axios.get(Links.HANDICAP + lp)
+        axios.get(URLs.HANDICAP + lp)
             .then((response) => {
                 const responseData = response.data.result.records;
                 if (response.status == 200 && responseData.length > 0) {
@@ -30,7 +30,7 @@ function Handicap(): JSX.Element {
             })
             .catch((err) => {
                 setData(new HandicapCar());
-                notify.error(ErrorMessage.ERROR_MESSAGE);
+                notify.error(ErrorMessage.MALFUNCTION);
             })
     };
 

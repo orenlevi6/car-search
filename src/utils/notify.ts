@@ -6,7 +6,7 @@ export enum SuccessMessage {
 
 export enum ErrorMessage {
     CAR_NOT_FOUND = "לא נמצא רכב",
-    ERROR_MESSAGE = "משהו השתבש, אנא נסו שוב"
+    MALFUNCTION = "משהו השתבש, אנא נסו שוב",
 }
 
 class Notify {
@@ -17,7 +17,8 @@ class Notify {
     }
 
     public error(message: string) {
-        this.notification.error(message);
+        const errorMessage = this.extractMessage(message);
+        this.notification.error(errorMessage);
     }
 
     private extractMessage(err: any): string {
@@ -33,7 +34,7 @@ class Notify {
         if (typeof err?.message === "string") {
             return err.message;
         }
-        return "משהו השתבש";
+        return ErrorMessage.MALFUNCTION;
     }
 
 }

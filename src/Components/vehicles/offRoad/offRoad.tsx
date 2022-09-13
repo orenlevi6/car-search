@@ -2,10 +2,10 @@ import { TextField, Button } from "@mui/material";
 import axios from "axios";
 import { SyntheticEvent, useState } from "react";
 import OffRoadCar from "../../../modal/offroad";
-import { Links } from "../../../utils/links";
 import "./offRoad.css";
 import notify, { ErrorMessage, SuccessMessage } from './../../../utils/notify';
 import SingleOffRoad from "./singleOffRoad/singleOffRoad";
+import URLs from './../../../utils/links';
 
 function OffRoad(): JSX.Element {
     let [lp, setLP] = useState("");
@@ -17,7 +17,7 @@ function OffRoad(): JSX.Element {
     };
 
     const findLP = () => {
-        axios.get(Links.OFF_ROAD + lp).
+        axios.get(URLs.OFF_ROAD + lp).
             then((response) => {
                 const responseData = response.data.result.records;
                 if (response.status == 200 && responseData.length > 0) {
@@ -30,7 +30,7 @@ function OffRoad(): JSX.Element {
             })
             .catch((err) => {
                 setData(new OffRoadCar());
-                notify.error(ErrorMessage.ERROR_MESSAGE);
+                notify.error(ErrorMessage.MALFUNCTION);
             })
     };
 

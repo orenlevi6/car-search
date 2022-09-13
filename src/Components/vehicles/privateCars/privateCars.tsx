@@ -2,10 +2,10 @@ import { TextField, Button } from "@mui/material";
 import axios from "axios";
 import { SyntheticEvent, useState } from "react";
 import PrivateCar from "../../../modal/privateCar";
-import { Links } from "../../../utils/links";
 import notify, { SuccessMessage, ErrorMessage } from "../../../utils/notify";
 import "./privateCars.css";
 import SingleCar from './singleCar/singleCar';
+import URLs from './../../../utils/links';
 
 function PrivateCars(): JSX.Element {
     let [lp, setLP] = useState("");
@@ -17,7 +17,7 @@ function PrivateCars(): JSX.Element {
     };
 
     const findLP = () => {
-        axios.get(Links.PRIVATE_CARS + lp).
+        axios.get(URLs.PRIVATE_CARS + lp).
             then((response) => {
                 const responseData = response.data.result.records;
                 if (response.status == 200 && responseData.length > 0) {
@@ -30,7 +30,7 @@ function PrivateCars(): JSX.Element {
             })
             .catch((err) => {
                 setData(new PrivateCar());
-                notify.error(ErrorMessage.ERROR_MESSAGE);
+                notify.error(ErrorMessage.MALFUNCTION);
             })
     };
 

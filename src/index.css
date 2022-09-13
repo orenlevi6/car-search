@@ -13,17 +13,6 @@ code {
     monospace;
 }
 
-.box {
-  display: inline-block;
-  box-sizing: border-box;
-  margin: 5px;
-  padding: 5px;
-  border: 2px dashed black;
-  border-radius: 10px;
-  box-shadow: 5px 5px 10px;
-  text-align: center;
-}
-
 .solidBox {
   display: inline-block;
   box-sizing: border-box;

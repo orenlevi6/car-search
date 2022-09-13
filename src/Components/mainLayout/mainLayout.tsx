@@ -10,18 +10,18 @@ function MainLayout(): JSX.Element {
     return (
         <div className="mainLayout" dir="rtl">
             <BrowserRouter>
-			<header>
-                <MyHeader/>
-            </header>
-            <aside>
-                <MyMenu/>
-            </aside>
-            <main>
-                <Routing/>
-            </main>
-            <footer>
-                <MyFooter/>
-            </footer>
+                <header>
+                    <MyHeader />
+                </header>
+                <aside>
+                    <MyMenu />
+                </aside>
+                <main>
+                    <Routing />
+                </main>
+                <footer>
+                    <MyFooter />
+                </footer>
             </BrowserRouter>
         </div>
     );
