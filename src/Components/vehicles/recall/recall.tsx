@@ -4,12 +4,13 @@ import { useState, SyntheticEvent } from "react";
 import RecallCar from "../../../modal/recall";
 import URLs from "../../../utils/links";
 import notify, { SuccessMessage, ErrorMessage } from "../../../utils/notify";
+import regex from "../../../utils/regex";
 import "./recall.css";
 import SingleRecall from "./singleRecall/singleRecall";
 
 function Recall(): JSX.Element {
-    let [lp, setLP] = useState("");
-    let [recallData, setData] = useState<RecallCar>(new RecallCar());
+    const [lp, setLP] = useState("");
+    const [recallData, setData] = useState<RecallCar>(new RecallCar());
 
     const updateLP = (args: SyntheticEvent) => {
         const value = (args.target as HTMLInputElement).value;
@@ -17,6 +18,11 @@ function Recall(): JSX.Element {
     };
 
     const findLP = () => {
+        if (regex.test(lp) === false) {
+            notify.error(ErrorMessage.INVALID_PLATE);
+            return;
+        }
+
         axios.get(URLs.RECALL + lp).
             then((response) => {
                 const responseData = response.data.result.records;
@@ -38,7 +44,9 @@ function Recall(): JSX.Element {
         <div className="recall">
             <h1>רכבים שקיבלו ריקול</h1> <hr />
             <form>
-                <TextField label="לוחית רישוי" onChange={updateLP}></TextField>
+                <TextField label="לוחית רישוי" onChange={updateLP}
+                    helperText="לוחית רישוי צריכה להיות בעלת 7 או 8 ספרות"
+                    error={regex.test(lp) === false && lp.length > 0}></TextField>
                 <br /> <br />
                 <Button variant="contained" onClick={findLP}>לחיפוש</Button>
             </form>

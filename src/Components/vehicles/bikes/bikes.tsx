@@ -6,10 +6,12 @@ import { TextField, Button } from "@mui/material";
 import SingleBike from "./singleBike/singleBike";
 import notify, { ErrorMessage, SuccessMessage } from './../../../utils/notify';
 import URLs from "../../../utils/links";
+import regex from './../../../utils/regex';
 
 function Bikes(): JSX.Element {
-  let [lp, setLP] = useState("");
-  let [bikeData, setData] = useState<Bike>(new Bike());
+  const [lp, setLP] = useState("");
+  const [bikeData, setData] = useState<Bike>(new Bike());
+
 
   const updateLP = (args: SyntheticEvent) => {
     const value = (args.target as HTMLInputElement).value;
@@ -17,10 +19,15 @@ function Bikes(): JSX.Element {
   };
 
   const findLP = () => {
+    if (regex.test(lp) === false) {
+      notify.error(ErrorMessage.INVALID_PLATE);
+      return;
+    }
+
     axios.get(URLs.BIKES + lp)
       .then((response) => {
         const responseData = response.data.result.records;
-        if (response.status == 200 && responseData.length > 0) {
+        if (response.status === 200 && responseData.length > 0) {
           setData(responseData[0]);
           notify.success(SuccessMessage.CAR_FOUND);
         } else {
@@ -36,9 +43,11 @@ function Bikes(): JSX.Element {
 
   return (
     <div className="bikes">
-      <h1>אופנועים</h1> <hr />
+      <h1>רכבים דו גלגליים (אופנועים)</h1> <hr />
       <form>
-        <TextField label="לוחית רישוי" onChange={updateLP}></TextField>
+        <TextField label="לוחית רישוי" onChange={updateLP}
+          helperText="לוחית רישוי צריכה להיות בעלת 7 או 8 ספרות"
+          error={regex.test(lp) === false && lp.length > 0}></TextField>
         <br /> <br />
         <Button variant="contained" onClick={findLP}>לחיפוש</Button>
       </form>

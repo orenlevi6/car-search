@@ -6,10 +6,11 @@ import "./offRoad.css";
 import notify, { ErrorMessage, SuccessMessage } from './../../../utils/notify';
 import SingleOffRoad from "./singleOffRoad/singleOffRoad";
 import URLs from './../../../utils/links';
+import regex from "../../../utils/regex";
 
 function OffRoad(): JSX.Element {
-    let [lp, setLP] = useState("");
-    let [offRoadData, setData] = useState<OffRoadCar>(new OffRoadCar());
+    const [lp, setLP] = useState("");
+    const [offRoadData, setData] = useState<OffRoadCar>(new OffRoadCar());
 
     const updateLP = (args: SyntheticEvent) => {
         let value = (args.target as HTMLInputElement).value;
@@ -17,6 +18,11 @@ function OffRoad(): JSX.Element {
     };
 
     const findLP = () => {
+        if (regex.test(lp) === false) {
+            notify.error(ErrorMessage.INVALID_PLATE);
+            return;
+        }
+
         axios.get(URLs.OFF_ROAD + lp).
             then((response) => {
                 const responseData = response.data.result.records;
@@ -38,7 +44,9 @@ function OffRoad(): JSX.Element {
         <div className="offRoad">
             <h1>רכבים שהורדו מהכביש</h1> <hr />
             <form>
-                <TextField label="לוחית רישוי" onChange={updateLP}></TextField><br /><br />
+                <TextField label="לוחית רישוי" onChange={updateLP}
+                    helperText="לוחית רישוי צריכה להיות בעלת 7 או 8 ספרות"
+                    error={regex.test(lp) === false && lp.length > 0}></TextField><br /><br />
                 <Button variant="contained" onClick={findLP}>לחיפוש</Button>
             </form>
             <br /><br />

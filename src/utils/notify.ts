@@ -5,6 +5,7 @@ export enum SuccessMessage {
 }
 
 export enum ErrorMessage {
+    INVALID_PLATE = "לוחית רישוי אינה תקינה, אנא בדקו את מספר הלוחית שהוקש",
     CAR_NOT_FOUND = "לא נמצא רכב",
     MALFUNCTION = "משהו השתבש, אנא נסו שוב",
 }

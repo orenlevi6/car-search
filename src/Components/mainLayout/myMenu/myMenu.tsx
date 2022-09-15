@@ -7,9 +7,9 @@ function MyMenu(): JSX.Element {
     const [date, setDate] = useState("");
 
     useEffect(() => {
-        setDate(new Date().toDateString());
+        setDate(new Date().toLocaleDateString("he-il"));
         setInterval(() => {
-            setTime(new Date().toLocaleTimeString());
+            setTime(new Date().toLocaleTimeString("he-il"));
         }, 1000);
     }, []);
 
