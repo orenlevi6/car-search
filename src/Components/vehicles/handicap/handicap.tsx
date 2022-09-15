@@ -26,7 +26,7 @@ function Handicap(): JSX.Element {
         axios.get(URLs.HANDICAP + lp)
             .then((response) => {
                 const responseData = response.data.result.records;
-                if (response.status == 200 && responseData.length > 0) {
+                if (response.status === 200 && responseData.length > 0) {
                     setData(responseData[0]);
                     notify.success(SuccessMessage.CAR_FOUND);
                 } else {

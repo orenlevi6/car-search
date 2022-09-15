@@ -23,10 +23,10 @@ function OffRoad(): JSX.Element {
             return;
         }
 
-        axios.get(URLs.OFF_ROAD + lp).
-            then((response) => {
+        axios.get(URLs.OFF_ROAD + lp)
+            .then((response) => {
                 const responseData = response.data.result.records;
-                if (response.status == 200 && responseData.length > 0) {
+                if (response.status === 200 && responseData.length > 0) {
                     setData(responseData[0]);
                     notify.success(SuccessMessage.CAR_FOUND);
                 } else {
